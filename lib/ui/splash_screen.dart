@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:chiks_restaurant_app/ui/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
+  static const routeName = 'Splash_screen';
+
   const SplashScreen({super.key});
   
   @override
@@ -35,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         width: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.blue, Colors.purple],
+            colors: [Colors.lightBlue, Colors.blueGrey],
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
           ),
@@ -46,14 +48,22 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
             Icon(
               Icons.restaurant,
               size: 80,
-              color: Colors.blueAccent,
+              color: Colors.white,
             ),
             SizedBox(height: 20),
             Text(
-              'Chiks Restaurant App',
+              'Chiks Restaurant',
               style: TextStyle(
                 fontStyle: FontStyle.italic,
-                color: Colors.white,
+                color: Colors.black,
+                fontSize: 32,
+              ),
+            ),
+            Text(
+              'App',
+              style: TextStyle(
+                fontStyle: FontStyle.italic,
+                color: Colors.black,
                 fontSize: 32,
               ),
             ),

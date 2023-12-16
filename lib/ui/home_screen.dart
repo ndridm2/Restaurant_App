@@ -1,158 +1,79 @@
 import 'package:flutter/material.dart';
-import 'package:chiks_restaurant_app/ui/detail_screen.dart';
-import 'package:chiks_restaurant_app/model/restaurant.dart';
+import 'package:provider/provider.dart';
+import '../data/api/api_service.dart';
+import '../provider/restaurant_provider.dart';
+import '../data/enum/result_state.dart';
+import '../widgets/card_restaurant.dart';
+import '../widgets/text_message.dart';
+import '../widgets/loading_progress.dart';
+import 'restaurant_search.dart';
+
 
 
 class HomeScreen extends StatelessWidget {
+  static const routeName = '/restaurant';
+  
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Chiks Restaurant App'),
-      ),
-      body: FutureBuilder<String>(
-        future: DefaultAssetBundle.of(context).loadString('assets/local_restaurant.json'),
-        builder: (context, snapshot) {
-          final List<Restaurant> restaurants = parseRestaurants(snapshot.data);
-
-          return ListView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            itemCount: restaurants.length,
-            itemBuilder: (context, index) {
-              final restaurant = restaurants[index];
-              return _itemList(context, restaurant);
-            },
-          );
-        },
+    return ChangeNotifierProvider<RestaurantProvider>(
+      create: (_) => RestaurantProvider(apiService: ApiService()),
+      child: Scaffold(
+        appBar: _buildAppBar(context),
+        body: _buildList(),
       ),
     );
   }
-
-  Widget _itemList(BuildContext context, Restaurant restaurant) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context){
-         return DetailScreen(restaurant: restaurant);
-        }));
-      },
-
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        margin: const EdgeInsets.symmetric(vertical: 8),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(24),
-          boxShadow: const[
-            BoxShadow(
-              color: Colors.grey,
-              blurRadius: 10,
-              offset: Offset(0, 5),
-            ),
-          ],
+  
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      title: const Text('Chiks Restaurant'),
+      actions: [
+        IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              Navigator.pushNamed(context,
+                  RestaurantSearch.routeName);
+            },
         ),
+      ],
+    );
+  }
 
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(24),
-              child: SizedBox(
-                height: 100,
-                width: 125,
-                child: restaurant.pictureId == null ? Icon(
-                  Icons.broken_image,
-                  size: 100,
-                  color: Colors.grey[400],
-                )
-                    : Image.network(
-                  restaurant.pictureId!,
-                  fit: BoxFit.cover,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) {
-                      return child;
-                    }else {
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.grey[400],
-                        ),
-                      );
-                    }
-                  },
-                  errorBuilder: (context, error, stackTrace) {
-                    return Icon(
-                      Icons.broken_image,
-                      size: 100,
-                      color: Colors.grey[400],
-                    );
-                  },
-                ),
+  Widget _buildList() {
+    return Consumer<RestaurantProvider>(
+      builder: (_, provider, __) {
+        switch (provider.state){
+          case ResultState.loading:
+            return const LoadingProgress();
+          case ResultState.hasData:
+            return ListView.builder(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
               ),
-            ),
-
-            const SizedBox(width: 16),
-            Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 8),
-                    Text(
-                      '${restaurant.name}',
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: Theme
-                        .of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(fontWeight: FontWeight.w500, fontSize: 18),
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.location_pin,
-                          size: 18,
-                          color: Colors.grey[400],
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          '${restaurant.city}',
-                          style: Theme
-                            .of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(color: const Color(0xFF616161)),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(width: 20),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.star,
-                          size: 18,
-                          color: Colors.amber,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          '${restaurant.rating}',
-                          style: Theme
-                            .of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(color: const Color(0xFF616161))
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-            ),
-          ],
-        ),
-
-      ),
+              itemCount: provider.result.count,
+              itemBuilder: (_, index){
+                final restaurant = provider.result.restaurants[index];
+                return CardRestaurant(restaurant: restaurant);
+              },
+            );
+          case ResultState.noData:
+            return const TextMessage(
+              image: 'assets/no-data.png',
+              message: 'Data Kosong',
+            );
+          case ResultState.error:
+            return TextMessage(
+              image: 'assets/no-internet.png',
+              message: 'Koneksi Terputus',
+              onPressed: () => provider.fetchAllRestaurant(),
+            );
+          default:
+            return const SizedBox();
+        }
+      },
     );
   }
 }

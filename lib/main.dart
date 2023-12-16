@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:chiks_restaurant_app/ui/splash_screen.dart';
+import 'ui/splash_screen.dart';
+import 'data/model/restaurant.dart';
+import 'ui/home_screen.dart';
+import 'ui/detail_screen.dart';
+import 'ui/restaurant_search.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,6 +15,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -18,6 +23,14 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const SplashScreen(),
+      initialRoute: SplashScreen.routeName,
+      routes: {
+        HomeScreen.routeName: (_) => const HomeScreen(),
+        DetailScreen.routeName: (context) => DetailScreen(
+          restaurant:
+          ModalRoute.of(context)?.settings.arguments as Restaurant),
+        RestaurantSearch.routeName: (_) => const RestaurantSearch(),
+      },
     );
   }
 }
