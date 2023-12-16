@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import '../common/styles.dart';
 import '../data/model/restaurant_detail.dart';
 import '../provider/restaurant_detail_provider.dart';
 import 'bottom_review.dart';
@@ -100,8 +99,10 @@ class ContentRestaurant extends StatelessWidget {
                     },
                     child: Text(
                       'Review',
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          color: primaryColor,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(color: const Color(0xFF000000),
                           decoration: TextDecoration.underline),
                     ),
                   ),
