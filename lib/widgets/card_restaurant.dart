@@ -41,7 +41,8 @@ class CardRestaurant extends StatelessWidget {
                   height: 100,
                   width: 125,
                   child: Image.network(
-                    'https://restaurant-api.dicoding.dev/images/small/${restaurant.pictureId}',
+                    'https://restaurant-api.dicoding.dev/images/small'
+                        '/${restaurant.pictureId}',
                     fit: BoxFit.cover,
                     loadingBuilder: (_, child, loadingProgress) {
                       if (loadingProgress == null) {
@@ -92,7 +93,8 @@ class CardRestaurant extends StatelessWidget {
                         Text(
                           restaurant.city,
                           style: Theme.of(context)
-                            .textTheme.bodyMedium!.copyWith(color: const Color(0xFF616161)),
+                            .textTheme.bodyMedium!.copyWith(
+                              color: const Color(0xFF616161)),
                         ),
                       ],
                     ),
@@ -110,7 +112,8 @@ class CardRestaurant extends StatelessWidget {
                         Text(
                           '${restaurant.rating}',
                           style: Theme.of(context)
-                            .textTheme.bodyMedium!.copyWith(color: const Color(0xFF616161)),
+                            .textTheme.bodyMedium!.copyWith(
+                              color: const Color(0xFF616161)),
                         )
                       ],
                     )
