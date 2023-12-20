@@ -54,7 +54,10 @@ class BottomReview extends StatelessWidget {
                     },
                     child: const Text(
                       'Add Review',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold
+                      ),
                     ),
                   ),
               ),

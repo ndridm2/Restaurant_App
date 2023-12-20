@@ -1,5 +1,5 @@
 class RestaurantResult {
-  bool error;
+  bool ?error;
   String message;
   int count;
   List<Restaurant> restaurants;

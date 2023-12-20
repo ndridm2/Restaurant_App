@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../data/api/api_service.dart';
+
 import '../provider/restaurant_provider.dart';
 import '../data/enum/result_state.dart';
 import '../widgets/card_restaurant.dart';
 import '../widgets/text_message.dart';
 import '../widgets/loading_progress.dart';
+
 import 'restaurant_search.dart';
 
 
@@ -17,18 +18,18 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<RestaurantProvider>(
-      create: (_) => RestaurantProvider(apiService: ApiService()),
-      child: Scaffold(
+    return Scaffold(
         appBar: _buildAppBar(context),
         body: _buildList(),
-      ),
     );
   }
   
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
-      title: const Text('Chiks Restaurant'),
+      title: const Text('Chiks Restaurant',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        )),
       actions: [
         IconButton(
             icon: const Icon(Icons.search),

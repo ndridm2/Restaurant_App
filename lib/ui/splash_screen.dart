@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:chiks_restaurant_app/ui/home_screen.dart';
+import '../ui/menu_home.dart';
 
 class SplashScreen extends StatefulWidget {
-  static const routeName = 'Splash_screen';
+  static const routeName = '/Splash_screen';
 
   const SplashScreen({super.key});
   
@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     
     Future.delayed(const Duration(seconds: 2), () {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const HomeScreen()),
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const MenuHome()),
       );
     });
   }

@@ -3,7 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 const Color primaryColor = Color(0xFFFFFFFF);
 const Color darkColor = Color(0xFF000000);
-const Color secondaryColor = Color(0xFF1BAC4B);
+const Color secondaryColor = Color(0xFF769ED9);
+
 
 final TextTheme myTextTheme = TextTheme(
   displayLarge: GoogleFonts.urbanist(
