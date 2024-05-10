@@ -86,6 +86,7 @@ class MyApp extends StatelessWidget {
         ],
       child: MaterialApp(
         title: 'Chiks Restaurant',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: Theme.of(context).colorScheme.copyWith(
             primary: primaryColor,

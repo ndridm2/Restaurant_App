@@ -26,6 +26,7 @@ class HomeScreen extends StatelessWidget {
   
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
+      elevation: 2,
       title: const Text('Chiks Restaurant',
         style: TextStyle(
           fontWeight: FontWeight.bold,
